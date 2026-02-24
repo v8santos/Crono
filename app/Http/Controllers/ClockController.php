@@ -40,7 +40,9 @@ class ClockController extends Controller
             'to' => Carbon::parse($request->input('date_to', now()))->format('Y-m-d 23:59:59'),
         ];
 
-        $data = Clock::selectRaw("SUM(strftime('%s', clock_out) - strftime('%s', clock_in)) / 60 as total_minutes, COUNT(id) as total_sessions")
+        $now = now();
+
+        $data = Clock::selectRaw("SUM(strftime('%s', IFNULL(clock_out, '{$now}')) - strftime('%s', clock_in)) / 60 as total_minutes, COUNT(id) as total_sessions")
             ->whereBetween('clock_in', $dateInterval)
             ->first();
 

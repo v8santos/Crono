@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ClockController;
+use App\Http\Controllers\Api\ClockController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/clock', [ClockController::class, 'index']);

@@ -10,7 +10,8 @@ class ClockService
     {
         $now = now();
 
-        $data = Clock::selectRaw("SUM(strftime('%s', IFNULL(clock_out, '{$now}')) - strftime('%s', clock_in)) / 60 as total_minutes, COUNT(id) as total_sessions")
+        $data = Clock::selectRaw("SUM(TIMESTAMPDIFF(SECOND, clock_in, COALESCE(clock_out, '{$now}'))) / 60 AS total_minutes,
+COUNT(id) AS total_sessions")
             ->whereBetween('clock_in', $dateInterval)
             ->first();
 

@@ -95,7 +95,7 @@ class ClockController extends Controller
 
         return response()->json([
             'total_time' => "{$metrics['hours']}h {$metrics['minutes']}m",
-            'total_sessions' => $metrics['total_sessions'],
+            'sessions_count' => $metrics['sessions_count'],
         ]);
     }
 }

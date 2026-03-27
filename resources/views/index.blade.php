@@ -56,22 +56,30 @@
             @endif
         </header>
 
-        <div class="flex items-center justify-center w-full">
-            <main class="flex justify-center w-full">
-                <div class="flex flex-wrap p-4 bg-white dark:bg-[#161615] dark:text-[#EDEDEC]">
-                    <button
-                        class="dark:bg-[#eeeeec] dark:border-[#eeeeec] dark:text-[#1C1C1A] dark:hover:bg-white dark:hover:border-white hover:bg-black hover:border-black px-5 py-1.5 bg-[#1b1b18] rounded-sm border border-black text-white text-sm leading-normal cursor-pointer"
-                        onclick="check()"
-                    >
-                        Bater ponto
-                    </button>
-                    <div class="ml-4">
-                        <p>Tempo total: {{ $metrics['hours'] }}h {{ $metrics['minutes'] }}m</p>
-                        <p>Número de sessões: {{ $metrics['sessions_count'] }}</p>
-                    </div>
+        <main class="flex flex-col lg:flex-row w-full bg-white dark:bg-[#161615] dark:text-[#EDEDEC] h-[80vh]">
+            <form action="/check" method="post" class="p-4 lg:flex-1">
+                @csrf
+                <div class="mb-2">
+                    <p>Tempo total: {{ $metrics['hours'] }}h {{ $metrics['minutes'] }}m</p>
+                    <p>Número de sessões: {{ $metrics['sessions_count'] }}</p>
                 </div>
-            </main>
-        </div>
+                <button
+                    class="dark:bg-green-500 dark:border-green-500 dark:text-[#1C1C1A] dark:hover:bg-[#1cdb02] dark:hover:border-[#1cdb02] hover:bg-black hover:border-black px-5 py-1.5 bg-[#1b1b18] rounded-sm border border-black text-white text-sm leading-normal cursor-pointer"
+                    type="submit"
+                    >
+                    Bater ponto
+                </button>
+            </form>
+            <div class="py-2 px-4 lg:flex-1 lg:border-l">
+                <h2 class="font-bold text-lg">Sessões do dia</h4>
+                <ul>
+                    @foreach ($todaySessions as $session)
+                        <li class="{{ ! $session->clock_out ? 'text-green-500' : '' }}">Início em: {{ $session->clock_in }} - Fim em: {{ $session->clock_out ?? 'Em aberto' }}</li>
+                        <hr>
+                    @endforeach
+                </ul>
+            </div>
+        </main>
 
         @if (Route::has('login'))
             <div class="h-14.5 hidden lg:block"></div>

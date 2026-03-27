@@ -5,3 +5,4 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ClockController::class, 'index']);
+Route::post('/check', [ClockController::class, 'check']);

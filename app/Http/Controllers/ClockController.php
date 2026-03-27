@@ -19,8 +19,16 @@ class ClockController extends Controller
             'to' => Carbon::parse(now())->format('Y-m-d 23:59:59'),
         ];
 
+        $todaySessions = $this->clockService->todaySessions();
         $metrics = $this->clockService->metrics($dateInterval);
 
-        return view('index', compact('metrics'));
+        return view('index', compact('metrics', 'todaySessions'));
+    }
+
+    public function check(Request $request)
+    {
+        $this->clockService->check();
+
+        return redirect()->back();
     }
 }
